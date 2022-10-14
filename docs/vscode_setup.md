@@ -178,7 +178,7 @@ Open the terminal (Press `Ctrl`+`Shift`+`ö`) and activate the environment by ty
 Flash the firmware by following the instructions for your device on [MicroPython](https://micropython.org/download/).
 If you have an ESP32 you can perform following steps:
 1. `python -m esptool --chip esp32 --port $COM-PORT$ erase_flash`
-2. `python -m esptool --chip esp32 --port $COM-PORT$ --baud 460800 write_flash -z 0x1000 esp32-20220117-v1.18.bin`
+2. `python -m esptool --chip esp32 --port $COM-PORT$ --baud 460800 write_flash -z 0x1000 $name_of_your_micropython_binary$`
 
 ## Upload and Run Project
 

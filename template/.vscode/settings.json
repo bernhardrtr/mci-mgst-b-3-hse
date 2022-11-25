@@ -3,6 +3,7 @@
     "python.languageServer": "Pylance",
     "python.linting.enabled": true,
     "python.linting.pylintEnabled": true,
+    "python.jediEnabled": false,
     "python.autoComplete.extraPaths": [
         "lib",
         "../micropython-stubs/stubs/cpython_core-pycopy",

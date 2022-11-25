@@ -23,72 +23,44 @@
 
 As PyMakr is a key extension setting it up correctly is further explained here.
 
-- Install the extension PyMakr within VS Code. (Press `Ctrl`+`Shift`+`X` to get to extension in VS Code, search for PyMakr)
-- After installation click on the dropdown menu at the `Uninstall` button and select `Install Another Version...`. Select version **v1.1.18**.
-- Edit the global settings (Press `Ctrl`+`Shift`+`P` -> `Pymakr > Global settings`).
-  In `pymakr.json` edit the following lines:
-  ```
-  ...
-  "address": "",
-  "username": "",
-  "password": "",
-  ...
-  "py_ignore": [
-      "pymakr.conf",
-      ".vscode",
-      ".gitignore",
-      ".git",
-      "project.pymakr",
-      "env",
-      "venv",
-      "micropython-stubs"
-  ],
-  ...
-  "autoconnect_comport_manufacturers": [
-      "Pycom",
-      "Pycom Ltd.",
-      "FTDI",
-      "Microsoft",
-      "Microchip Technology, Inc.",
-      "1a86",
-      "Silicon Labs"
-  ]
-  ...
-  ```
-  If you want to use a specific port, set `"auto_connect": false` and then define the port `"address": "COM4"`.
+> The minimum required PyMakr version is `v2.22.5`
+>
+- Press `Ctrl`+`Shift`+`X` to get to extension in VS Code
+- Search for PyMakr
+- Click the `install` button
 
 ### Git
 
 - If not already installed, install [git](https://git-scm.com/downloads/) on you computer. Otherwise you cannot clone repositories with git.
 
-### MicroPython Stubs
+# Micropython Project Setup
+
+Now we have completed the setup of VS Code to create, develop and test micropython projects within VS Code. It is time to create a micropython project within the given workspace `MyMicroPythonProjects`.
 
 - Create a folder that contains all your micropython projects in VS Code by following the given steps:
   - Click on File -> Add folder to workspace...
   - Within the pop up window click rights and make a new folder
-  - Name the folder as you want, here it is named 'MyMicroPythonProjects'
-  - Click the Add button, so the folder 'MyMicroPythonProjects' is added to the workspace of VS Code
+  - Name the folder as you want, here it is named `MyMicroPythonProjects`
+  - Click the Add button, so the folder `MyMicroPythonProjects` is added to the workspace of VS Code
 - Open a new terminal (Press `Ctrl`+`Shift`+`ö`)
-- Clone the [micropython-stubs](https://github.com/Josverl/micropython-stubs) repository into the folder that will contain all your micropython projects with pasting `git clone https://github.com/Josverl/micropython-stubs.git` into the terminal command line and hit the enter key
+- Initialize version control by typing the command `git init`
+- Copy the file `.gitignore` from this repository root folder into `MyMicroPythonProjects`
+- Add the [micropython-stubs](https://github.com/Josverl/micropython-stubs) repository as a submodule to the folder that will contain all your micropython projects with pasting `git submodule add https://github.com/Josverl/micropython-stubs.git` into the terminal command line and hit the enter key.
+- Your `MyMicroPythonProjects` folder now should look like this:
 
-  Example folder structure:
   ```
   MyMicroPythonProjects/
+  |-- .git/
   |-- micropython-stubs/
-  |-- mpy_project_01/
-  |-- mpy_project_02/
-  |-- ...
+  |-- .gitignore
+  |-- .gitmodules
   ```
 
-Now we have completed the setup of VS Code to create, develop and test micropython projects within VS Code. It is time to create a micropython project within the given workspace 'MyMicroPythonProjects'
-
-# Micropython Project Setup
-
-As a first step, create a project folder that contains all the files of your project within the 'MyMicroPythonProjects' workspace. Follow the steps to do so:
-- Activate the workspace folder 'MyMicroPythonProjects' with a click on File -> Add folder to workspace... and then choosing the folder 'MyMicroPythonProjects'
+As a next step, create a project folder that contains all the files of your project within the `MyMicroPythonProjects` workspace. Follow the steps to do so:
 - Press `Ctrl`+`Shift`+`E` to navigate to the explorer within VS Code
-- Press `Ctrl`+`K` to tell VS Code that a command follows and immediatly press `Ctrl`+`O` afterwards (This is the short cut to create a new folder within the workspace)
-- Name the folder as you would like. Here it is named 'mpy_project_01'
+- Hover your mouse over the workspace title bar and click the new folder button
+- Name the folder as you would like. Here it is named `mpy_project_01`
+- Now copy all content from this repository `template` folder into your `mpy_project_01`
 
 ## Python Environment
 
@@ -98,9 +70,8 @@ Since the project folder is now created, the project and the environment of the 
 
 To create a new virtual environment for your project, follow the steps:
 - Open the terminal (Press `Ctrl`+`Shift`+`ö`)
-- Change the directory to your project folder e.g. by typing `cd .\mpy_project_01\`
 - Then type `python -m venv venv` to create the virtual environment
-- Select the interpreter `Ctrl`+`Shift`+`P` -> `Python: Select Interpreter` from the virtual environment (If not listed, enter the interpreter path: `.\mpy_project_01\venv\Scripts\python.exe`).
+- Select the interpreter `Ctrl`+`Shift`+`P` -> `Python: Select Interpreter` from the virtual environment (If not listed, enter the interpreter path: `.\venv\Scripts\python.exe`).
 
 ### Install Requirements
 
@@ -113,7 +84,8 @@ Install the packages via `pip install pylint esptool`.
 
 ### Link the MicroPython Stubs
 
-- Copy the files from the floder `micropython-stubs/docs/samples` to your project root folder (e.g. 'mpy_project_01').
+> If you don't use the template project and create a new clean project, you have to copy the files from the folder `micropython-stubs/docs/samples` into your project.
+
 - Edit the file `.vscode/settings.json`. This is an ESP32 specific configuration example:
   ```
   {
@@ -124,27 +96,57 @@ Install the packages via `pip install pylint esptool`.
     "python.autoComplete.extraPaths": [
 	"lib",
 	"../micropython-stubs/stubs/cpython_core-pycopy",
-	"../micropython-stubs/stubs/micropython-v1_18-frozen/esp32/GENERIC",
-	"../micropython-stubs/stubs/micropython-v1_18-esp32"
+	"../micropython-stubs/stubs/micropython-v1_19_1-frozen/esp32/GENERIC",
+	"../micropython-stubs/stubs/micropython-v1_19_1-esp32"
     ],
     "python.analysis.extraPaths": [
 	"lib",
 	"../micropython-stubs/stubs/cpython_core-pycopy",
-	"../micropython-stubs/stubs/micropython-v1_18-frozen/esp32/GENERIC",
-	"../micropython-stubs/stubs/micropython-v1_18-esp32"
+	"../micropython-stubs/stubs/micropython-v1_19_1-frozen/esp32/GENERIC",
+	"../micropython-stubs/stubs/micropython-v1_19_1-esp32"
     ]
   }
   ```
 - Edit the line `init-hook=...` in the file `.pylintrc`.
   ```
-	  init-hook='import sys;sys.path[1:1] = ["lib", "../micropython-stubs/stubs/cpython_core-pycopy", "../micropython-stubs/stubs/micropython-v1_18-frozen/esp32/GENERIC", "../micropython-stubs/stubs/micropython-v1_18-esp32",];'
+	  init-hook='import sys;sys.path[1:1] = ["lib", "../micropython-stubs/stubs/cpython_core-pycopy", "../micropython-stubs/stubs/micropython-v1_19_1-frozen/esp32/GENERIC", "../micropython-stubs/stubs/micropython-v1_19_1-esp32",];'
+  ```
+
+### PyMakr Configuration
+
+Before you can upload your project to a controller, you must configure PyMakr initially. This requires the following steps:
+
+- Add the file `pymakr.conf` in your project root directory.
+- Add following content. Change `mpy_project_01` in the line `name` to your project name.
+  ```
+  {
+    "py_ignore": [
+      ".vscode",
+      "doc",
+      "firmware",
+      "env",
+      "venv",
+      ".env",
+      ".venv",
+      ".pylintrc",
+      "pymakr.conf",
+      "README.md",
+      ".gitignore",
+      ".git",
+      "project.pymakr",
+      "micropython-stubs"
+    ],
+    "name": "mpy_project_01"
+  }
   ```
 
 ## Firmware
 
-Download the device firmware from [MicroPython](https://micropython.org/download/) to your project root directory.
+Download the device firmware from [MicroPython](https://micropython.org/download/) to your project firmware directory.
 
 ## Files and Folder
+
+> This step is only necessary if you are setting up a new clean project and not using the template project.
 
 Add the following files to your project root directory:
 - `boot.py`
@@ -160,12 +162,16 @@ mpy_project_01/
 |   |-- extensions.json
 |   |-- settings.json
 |   |-- tasks.json
+|-- doc/
+|-- firmware/
+|   |-- esp32-20220117-v1.19.1.bin
 |-- lib/
 |-- venv/
 |-- .pylintrc
 |-- boot.py
-|-- esp32-20220117-v1.18.bin
 |-- main.py
+|-- pymakr.conf
+|-- README.md
 ```
 
 The project structure is ready for coding now. You have reached the second of three milestones.
@@ -178,7 +184,7 @@ Open the terminal (Press `Ctrl`+`Shift`+`ö`) and activate the environment by ty
 Flash the firmware by following the instructions for your device on [MicroPython](https://micropython.org/download/).
 If you have an ESP32 you can perform following steps:
 1. `python -m esptool --chip esp32 --port $COM-PORT$ erase_flash`
-2. `python -m esptool --chip esp32 --port $COM-PORT$ --baud 460800 write_flash -z 0x1000 esp32-20220117-v1.18.bin`
+2. `python -m esptool --chip esp32 --port $COM-PORT$ --baud 460800 write_flash -z 0x1000 $NAME_OF_YOUR_MICROPYTHON_FIRMWARE$.bin`
 
 ## Upload and Run Project
 
@@ -191,6 +197,13 @@ Follow the steps to get the minimal code example to test if VS Code was set up c
     print("Congratulations, you have set up VS Code for Micropython Projects with ESP32 correctly")
     sleep(1)
   ```
-  into 'main.py'
+  into `main.py`
+- Switch to the PyMakr extension.
+- Your project should be shown within the projects view.
+- In your project, click on `ADD DEVICES` and select your device.
+- Your device is now connected to the project and you can click connect (lightning icon) while hovering the mouse over the device.
+- Afterwards click on `Sync project to device`.
+- If this button is inactive, you should first click the `Stop all busy devices` button on your project.
 - Upload your MicroPython project via the Pymakr `Upload` button or via `STRG`+`SHIFT`+`P` -> `Pymakr > Upload project`
-- Click the Run Button in the PyMakr toolstrip or via `STRG`+`SHIFT`+`P` -> `Pymakr > Run project`
+- Now perform a device reset.
+- Your program will now start and you should see the output in the terminal now.
